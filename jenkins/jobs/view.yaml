@@ -1,0 +1,15 @@
+---
+- view:
+    name: QA
+    view-type: list
+    description: "QA"
+    filter-executors: true
+    filter-queue: true
+    job-name:
+      - jobs_uploader
+      - ui_tests
+    columns:
+      - status
+      - weather
+      - job
+      - build-button

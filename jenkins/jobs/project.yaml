@@ -1,0 +1,6 @@
+---
+- project:
+    name: test_name
+    jobs:
+      - jobs_uploader
+      - ui_tests

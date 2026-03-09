@@ -1,0 +1,13 @@
+- job:
+    name: jobs_uploader
+    project-type: pipeline
+    description: "Jobs uploader"
+    parameters:
+      - text:
+          name: REFSPEC
+          default: master
+          description: "Branch"
+    pipeline-scm:
+      scm:
+        - uploader_scm
+      script-path: ./pipelines/jobs_uploader.groovy

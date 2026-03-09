@@ -1,0 +1,10 @@
+---
+- scm:
+    name: ui_tests_scm
+    scm:
+      - git:
+          url: https://github.com/veeroosh/otus_ui_tests
+          credentials-id: jenkins
+          branches:
+            - FETCH_HEAD
+          refspec: ${REFSPEC}

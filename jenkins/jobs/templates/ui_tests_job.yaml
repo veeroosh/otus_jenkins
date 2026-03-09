@@ -1,0 +1,19 @@
+- job-template:
+    name: ui_tests
+    project-type: pipeline
+    description: "UI tests runner"
+    concurrent: true
+    parameters:
+      - string:
+          name: REFSPEC
+          default: master
+          description: "Branch"
+      - text:
+          name: CONFIG
+          default: |
+            browser: chrome
+            base_url: https://otus.ru
+    pipeline-scm:
+      scm:
+        - ui_tests_scm
+      script-path: ./pipelines/ui_tests.groovy
