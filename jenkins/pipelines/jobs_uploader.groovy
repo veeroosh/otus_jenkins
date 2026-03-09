@@ -20,7 +20,7 @@ password=$pass
 
 [job_builder]
 recursive=True
-keep_descriptions=false
+keep_descriptions=False
         EOF
         """
         }
