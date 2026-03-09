@@ -27,6 +27,6 @@ keep_descriptions=false
     }
 
     stage('Upload jobs') {
-        sh "jenkins-jobs --conf $CONFIG_FILE -- flush-cache update $JOBS_DIR"
+        sh "jenkins-jobs --conf $CONFIG_FILE --flush-cache update $JOBS_DIR"
     }
 }
