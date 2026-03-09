@@ -9,10 +9,10 @@ def CONFIG_FILE = "${WORKSPACE}/uploader.ini"
 
 node('maven') {
     stage("Checkout") {
-        scm checkout
+        checkout scm
     }
 
-    stage("Create ini conf") {
+    stage('Create uploader.ini') {
         withCredentials([usernamePassword(credentialsId: "jenkins",
                 passwordVariable: "pass", usernameVariable: "user")]) {
             sh """

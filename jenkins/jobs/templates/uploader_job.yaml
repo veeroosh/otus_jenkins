@@ -11,4 +11,4 @@
     pipeline-scm:
       scm:
         - uploader_scm
-      script-path: pipelines/jobs_uploader.groovy
+      script-path: ./pipelines/jobs_uploader.groovy
