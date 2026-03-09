@@ -9,7 +9,7 @@ node('maven') {
     }
 
     stage('Create uploader.ini') {
-        withCredentials([usernamePassword(credentialsId: "jenkins",
+        withCredentials([usernamePassword(credentialsId: "uploader",
                 passwordVariable: "pass", usernameVariable: "user")]) {
             sh """
         cat > $CONFIG_FILE << 'EOF'
