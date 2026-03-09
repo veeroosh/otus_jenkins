@@ -3,8 +3,8 @@
     name: uploader_scm
     scm:
       - git:
-          url: https://github.com/veeroosh/otus_jenkins
+          url: https://github.com/veeroosh/otus_jenkins.git
           credentials-id: jenkins
           branches:
             - FETCH_HEAD
-          refspec: ${REFSPEC}
+          refspec: $REFSPEC

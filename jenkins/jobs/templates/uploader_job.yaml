@@ -2,6 +2,7 @@
     name: jobs_uploader
     project-type: pipeline
     description: "Jobs uploader"
+    concurrent: false
     parameters:
       - text:
           name: REFSPEC
