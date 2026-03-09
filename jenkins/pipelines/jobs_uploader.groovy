@@ -1,13 +1,9 @@
-import groovy.transform.Field
-
-@Field
-def JOBS_DIR = "${env.WORKSPACE}/jobs"
-
-@Field
-def CONFIG_FILE = "${env.WORKSPACE}/uploader.ini"
-
-
 node('maven') {
+
+    def WORKSPACE = pwd()
+    def JOBS_DIR = "${WORKSPACE}/jobs"
+    def CONFIG_FILE = "${WORKSPACE}/uploader.ini"
+
     stage("Checkout") {
         checkout scm
     }
