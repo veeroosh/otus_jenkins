@@ -1,7 +1,7 @@
 node('maven') {
 
     def WORKSPACE = pwd()
-    def JOBS_DIR = "${WORKSPACE}/jobs"
+    def JOBS_DIR = "${WORKSPACE}/jenkins/jobs"
     def CONFIG_FILE = "${WORKSPACE}/uploader.ini"
 
     stage("Checkout") {
