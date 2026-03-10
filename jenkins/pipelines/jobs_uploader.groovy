@@ -21,8 +21,8 @@ password=$pass
 [job_builder]
 recursive=true
 keep_descriptions=false
-        EOF
-        """
+EOF
+"""
         }
     }
 
