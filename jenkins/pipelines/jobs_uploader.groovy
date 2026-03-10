@@ -26,6 +26,10 @@ keep_descriptions=false
         }
     }
 
+    stage('Debug config') {
+        sh "cat $CONFIG_FILE"
+    }
+
     stage('Upload jobs') {
         sh "jenkins-jobs --conf $CONFIG_FILE --flush-cache update $JOBS_DIR"
     }
