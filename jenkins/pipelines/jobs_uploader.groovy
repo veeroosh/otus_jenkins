@@ -12,15 +12,15 @@ node('maven') {
         withCredentials([usernamePassword(credentialsId: "uploader",
                 passwordVariable: "pass", usernameVariable: "user")]) {
             sh """
-        cat > $CONFIG_FILE << 'EOF'
+        cat > $CONFIG_FILE << EOF
 [jenkins]
 url=http://127.0.0.1/jenkins/
 user=$user
 password=$pass
 
 [job_builder]
-recursive=true
-keep_descriptions=false
+recursive=True
+keep_descriptions=False
         EOF
         """
         }
