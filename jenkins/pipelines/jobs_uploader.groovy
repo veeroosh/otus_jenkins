@@ -26,14 +26,6 @@ EOF
         }
     }
 
-    stage('Debug workspace') {
-        sh """
-    pwd
-    ls -la
-    ls -la $WORKSPACE
-    """
-    }
-
     stage('Upload jobs') {
         sh "jenkins-jobs --conf $CONFIG_FILE --flush-cache update $JOBS_DIR"
     }
