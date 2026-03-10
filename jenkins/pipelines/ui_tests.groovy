@@ -42,7 +42,7 @@ timeout("1200") {
 
         stage('Publish allure report') {
             allure([
-                    results: [{path: 'target/allure'}],
+                    results: [{path: 'allure-results'}], // target/allure
                     includeProperties: false,
                     jdk: '',
                     properties: [],
