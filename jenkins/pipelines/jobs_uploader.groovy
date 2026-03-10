@@ -26,8 +26,12 @@ EOF
         }
     }
 
-    stage('Debug config') {
-        sh "cat $CONFIG_FILE"
+    stage('Debug workspace') {
+        sh """
+    pwd
+    ls -la
+    ls -la $WORKSPACE
+    """
     }
 
     stage('Upload jobs') {
