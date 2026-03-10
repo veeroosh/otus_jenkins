@@ -19,8 +19,8 @@ user=$user
 password=$pass
 
 [job_builder]
-recursive=True
-keep_descriptions=False
+recursive=true
+keep_descriptions=false
         EOF
         """
         }
