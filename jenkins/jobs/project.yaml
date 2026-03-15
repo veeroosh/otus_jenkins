@@ -3,4 +3,7 @@
     name: test_name
     jobs:
       - jobs_uploader
+      - runner_job
       - ui_tests
+      - api_tests
+      - mobile_tests
