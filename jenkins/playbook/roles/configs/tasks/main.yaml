@@ -1,0 +1,93 @@
+---
+- name: Create main folder
+  file:
+    path: /home/latysheva/otus/configs/
+    state: directory
+    mode: '0666'
+
+- name: Create browsers.json
+  template:
+    src: ./templates/browsers.json.j2
+    dest: /home/latysheva/otus/configs/browsers.json
+  vars:
+    default_chrome_version: 128.0
+    chrome_browsers: [
+      "\"128.0\": {
+                \"image\": \"selenoid/chrome:128.0\",
+                \"port\": \"4444\",
+                \"path\": \"/\"
+            },",
+      "\"127.0\": {
+                \"image\": \"selenoid/chrome:127.0\",
+                \"port\": \"4444\",
+                \"path\": \"/\"
+            }" ]
+    default_firefox_version: 120.0
+    firefox_browsers: [
+      "\"120.0\": {
+                \"image\": \"selenoid/firefox:120.0\",
+                \"port\": \"4444\",
+                \"path\": \"/wd/hub\"
+            }" ]
+
+- name: Create docker-compose.yaml
+  template:
+    src: ./templates/docker-compose.yaml.j2
+    dest: /home/latysheva/otus/configs/docker-compose.yaml
+  vars:
+    nginx_http_port: 80
+
+- name: Create grid-router folder
+  file:
+    path: /home/latysheva/otus/configs/ggr
+    state: directory
+    mode: '0666'
+
+- name: Create users.httpasswd
+  template:
+    src: ./templates/users.httpasswd.j2
+    dest: /home/latysheva/otus/configs/ggr/users.httpasswd
+  vars:
+    user: test
+
+- name: Create quota dir for ggr
+  file:
+    path: /home/latysheva/otus/configs/ggr/quota
+    state: directory
+    mode: '0666'
+
+- name: Create ggr balancer rules
+  template:
+    src: ./templates/test.xml.j2
+    dest: /home/latysheva/otus/configs/ggr/quota/test.xml
+    mode: '0666'
+  vars:
+    default_browser_version: "128.0"
+    chrome_browser: [ "<version number=\"128.0\">
+                        <region name=\"1\">
+                                <host name=\"selenoid_lat1\" port=\"4444\" count=\"1\"/>
+                                <host name=\"selenoid_lat2\" port=\"4444\" count=\"1\"/>
+                        </region>
+                </version>",
+      "<version number=\"127.0\">
+        <region>
+          <host name=\"selenoid_lat1\" port=\"4444\" count=\"1\"/>
+          <host name=\"selenoid_lat2\" port=\"4444\" count=\"1\"/>
+        </region>
+      </version>" ]
+
+- name: Create nginx folder
+  file:
+    path: /home/latysheva/otus/configs/nginx
+    state: directory
+    mode: '0666'
+
+- name: Create selenoid.conf for nginx
+  template:
+    src: ./templates/nginx.conf.j2
+    dest: /home/latysheva/otus/configs/nginx/nginx.conf
+  vars:
+    nginx_port: 80
+    selenoid_ui_port: 8080
+    ggr_port: 4444
+    jenkins_port: 8080

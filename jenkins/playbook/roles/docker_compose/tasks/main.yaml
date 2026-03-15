@@ -1,0 +1,10 @@
+---
+- name: Remove old docker-compose binary
+  file:
+    path: /usr/local/bin/docker-compose
+    state: absent
+
+- name: Install docker-compose-plugin
+  apt:
+    name: docker-compose-plugin
+    state: present

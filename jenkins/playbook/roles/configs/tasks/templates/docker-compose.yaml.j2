@@ -1,0 +1,129 @@
+version: '3.9'
+
+services:
+  registry:
+    image: registry:3.0.0
+    restart: always
+    container_name: registry
+    hostname: registry
+    volumes:
+      - /home/latysheva/otus/registry:/var/lib/registry
+    ports:
+      - 5005:5005
+    environment:
+      - REGISTRY_HTTP_ADDR=0.0.0.0:5005
+    networks:
+      - selenoid1
+
+  jenkins:
+    image: jenkins/jenkins:jdk21
+    restart: always
+    hostname: jenkins
+    container_name: jenkins
+    user: root
+    environment:
+      - JAVA_OPTS="-Dhudson.model.DownloadService.noSignatureCheck=true"
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - JENKINS_OPTS="--prefix=/jenkins"
+    volumes:
+      - /home/latysheva/otus/jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - selenoid1
+
+  wiremock:
+    image: wiremock/wiremock:3.13.2
+    container_name: wiremock
+    volumes:
+      - /home/latysheva/otus/configs/wiremock/stubs:/home/wiremock/mappings
+    networks:
+      - selenoid1
+    hostname: wiremock
+      
+  selenoid1:
+    image: aerokube/selenoid:1.11.3
+    container_name: selenoid1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/latysheva/otus/configs/browsers.json:/etc/selenoid/browsers.json:ro
+    networks:
+      - selenoid1
+    command: -container-network=selenoid1
+    hostname: selenoid1
+
+  selenoid2:
+    image: aerokube/selenoid:1.11.3
+    container_name: selenoid2
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/latysheva/otus/configs/browsers.json:/etc/selenoid/browsers.json:ro
+    networks:
+      - selenoid2
+    command: -container-network=selenoid2
+    hostname: selenoid2
+
+  ggr:
+    image: aerokube/ggr:1.7.2
+    container_name: ggr
+    depends_on:
+      - selenoid1
+      - selenoid2
+    command: -guests-allowed -guests-quota "test" -verbose
+    networks:
+      - selenoid1
+      - selenoid2
+    volumes:
+      - /home/latysheva/otus/configs/ggr:/etc/grid-router:ro
+    hostname: ggr
+
+  ggr_ui:
+    image: aerokube/ggr-ui:1.2.0
+    container_name: ggr_ui
+    depends_on:
+      - ggr
+    volumes:
+      - /home/latysheva/otus/configs/ggr/quota:/etc/grid-router/quota:ro
+    networks:
+      - selenoid1
+      - selenoid2
+    hostname: ggr_ui
+
+  selenoid_ui:
+    image: aerokube/selenoid-ui:1.10.11
+    container_name: selenoid_ui
+    depends_on:
+      - ggr_ui
+    command: --selenoid-uri http://ggr_ui:8888
+    networks:
+      - selenoid1
+      - selenoid2
+    hostname: selenoid_ui
+
+  nginx:
+    image: nginx:mainline-alpine3.22
+    privileged: true
+    restart: always
+    depends_on:
+      - ggr
+      - selenoid_ui
+      - registry
+      - jenkins
+      - wiremock
+    container_name: nginx
+    volumes:
+      - /home/latysheva/otus/configs/nginx:/etc/nginx/conf.d
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - {{ nginx_http_port }}:80
+    hostname: nginx
+    networks:
+      - selenoid1
+      - selenoid2
+
+networks:
+  selenoid1:
+    name: selenoid1
+    external: true
+  selenoid2:
+    name: selenoid2
+    external: true

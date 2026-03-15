@@ -1,0 +1,14 @@
+- job:
+    name: runner_job
+    project-type: pipeline
+    description: "Runner for all tests"
+    concurrent: false
+    parameters:
+      - text:
+          name: REFSPEC
+          default: master
+          description: "Branch"
+    pipeline-scm:
+      scm:
+        - runner_scm
+      script-path: ./jenkins/pipelines/runner_tests.groovy

@@ -1,0 +1,7 @@
+<qa:browsers>
+        <browser name="chrome" defaultVersion="{{ default_browser_version }}">
+                {%- for browser in chrome_browser %}
+                        {{ browser }}
+                {%- endfor %}
+        </browser>
+</qa:browsers>

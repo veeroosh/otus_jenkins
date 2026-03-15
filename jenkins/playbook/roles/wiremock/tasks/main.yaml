@@ -1,0 +1,16 @@
+---
+- name: Create folder with stubs
+  file:
+    path: "/home/latysheva/configs/wiremock/stubs"
+    state: directory
+    mode: '0666'
+
+- name: Rendering stub template
+  template:
+    src: "./templates/{{ item }}.j2"
+    dest: "/home/latysheva/configs/wiremock/stubs/{{ item }}"
+  loop:
+    - user_get_all.json
+    - user_get_by_id.json
+    - course_get_all.json
+    - user_soap.json

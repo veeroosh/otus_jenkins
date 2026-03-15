@@ -19,19 +19,9 @@ timeout("1200") {
             }
         }
 
-//        stage("Running UI tests via docker") { // либо
-//            def state = sh(
-//                    script: "docker run --name=ui_tests --network=host --en-file ./config/.env -t localhost:5005/ui_tests:1.0.0",
-//                    returnStatus: true
-//            )
-//            if (state > 0) {
-//                currentBuild.result = 'UNSTABLE'
-//            }
-//        }
-
-        stage('Running UI tests via ansible') { // либо
+        stage('Running API tests via ansible') {
             def state = sh(
-                    script: "ansible-playbook -i ./playbook/hosts ./playbook/playbook.yaml --tags ui_test", // --extra-vars browser=${yamlConfig['browser']} --extra-vars browser_version=${yamlConfig['browser_version']}
+                    script: "ansible-playbook -i ./playbook/hosts ./playbook/playbook.yaml --tags api_tests",
                     returnStatus: true
             )
             if (state > 0) {
@@ -41,7 +31,7 @@ timeout("1200") {
 
         stage('Publish allure report') {
             allure([
-                    results          : [{ path: 'allure-results' }], // target/allure
+                    results          : [{ path: 'allure-results' }],
                     includeProperties: false,
                     jdk              : '',
                     properties       : [],
@@ -56,8 +46,7 @@ timeout("1200") {
         }
 
         stage('Notification') {
-            def message = """-----------UI TESTS-----------
-            brower: ${yamlConfig['browser']}"""
+            def message = """-----------API TESTS-----------"""
             testsStat.each { val ->
                 message += "$val\n"
             }

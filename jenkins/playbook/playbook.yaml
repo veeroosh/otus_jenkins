@@ -1,0 +1,10 @@
+- name: Tests infrastructure playbook
+  hosts: latysheva_server
+  become: yes
+  remote_user: root
+  roles:
+#    - docker
+#    - docker_compose
+    - configs
+    - wiremock
+    - infrastructure

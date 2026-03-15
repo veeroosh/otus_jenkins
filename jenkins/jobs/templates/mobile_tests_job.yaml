@@ -1,0 +1,19 @@
+- job-template:
+    name: mobile_tests
+    project-type: pipeline
+    description: "Mobile tests runner"
+    concurrent: true
+    parameters:
+      - string:
+          name: REFSPEC
+          default: master
+          description: "Branch"
+      - text:
+          name: CONFIG
+          default: |
+            browser: chrome
+            base_url: https://otus.ru
+    pipeline-scm:
+      scm:
+        - mobile_tests_scm
+      script-path: ./jenkins/pipelines/mobile_tests.groovy

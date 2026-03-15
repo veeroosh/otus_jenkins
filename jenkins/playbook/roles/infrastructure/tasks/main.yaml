@@ -1,0 +1,14 @@
+---
+- name: Create selenoid networks
+  shell: docker network inspect {{ item }} >/dev/null 2>&1 || docker network create {{ item }}
+  args:
+    warn: false
+  loop:
+    - selenoid1
+    - selenoid2
+
+- name: Running infrastructure
+  shell: docker compose up -d
+  become: true
+  args:
+    chdir: /home/latysheva/otus/configs
