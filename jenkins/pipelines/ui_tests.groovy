@@ -3,6 +3,9 @@ import groovy.transform.Field
 @Field
 def testsStat = []
 
+@Field
+def WORKSPACE = pwd()
+
 timeout("1200") {
     node("maven") {
         withBuildUser {
@@ -22,7 +25,6 @@ timeout("1200") {
         }
 
         stage('Running UI tests via ansible') {
-            def WORKSPACE = pwd()
             def state = sh(
                     script: "ansible-playbook -i ${WORKSPACE}/jenkins/playbook/hosts ${WORKSPACE}/jenkins/playbook/tests.yaml --tags ui_test", // --extra-vars browser=${yamlConfig['browser']} --extra-vars browser_version=${yamlConfig['browser_version']}
                     returnStatus: true
