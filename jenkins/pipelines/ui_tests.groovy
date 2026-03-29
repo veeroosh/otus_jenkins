@@ -9,27 +9,19 @@ timeout("1200") {
             currentBuild.description = "User: ${env.BUILD_USER}"
         }
 
-        def yamlConfig = readYaml text: "{$CONFIG}"
+        def configText = "${CONFIG}"
+        def yamlConfig = readYaml text: configText
+
         sh "mkdir -p ./config"
 
         stage("Create env file") {
             dir("config") {
                 sh "BROWSER=${yamlConfig['browser']} > ./.env"
-                sh "BROWSER_VERSION=${yamlConfig['browser_version']} >> ./.env"
+                sh "BROWSER_VERSION=${yamlConfig['base_url']} >> ./.env"
             }
         }
 
-//        stage("Running UI tests via docker") { // либо
-//            def state = sh(
-//                    script: "docker run --name=ui_tests --network=host --en-file ./config/.env -t localhost:5005/ui_tests:1.0.0",
-//                    returnStatus: true
-//            )
-//            if (state > 0) {
-//                currentBuild.result = 'UNSTABLE'
-//            }
-//        }
-
-        stage('Running UI tests via ansible') { // либо
+        stage('Running UI tests via ansible') {
             def state = sh(
                     script: "ansible-playbook -i ./playbook/hosts ./playbook/playbook.yaml --tags ui_test", // --extra-vars browser=${yamlConfig['browser']} --extra-vars browser_version=${yamlConfig['browser_version']}
                     returnStatus: true
@@ -41,7 +33,7 @@ timeout("1200") {
 
         stage('Publish allure report') {
             allure([
-                    results          : [{ path: 'allure-results' }], // target/allure
+                    results          : [{ path: 'allure-results' }],
                     includeProperties: false,
                     jdk              : '',
                     properties       : [],
