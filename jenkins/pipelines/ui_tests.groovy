@@ -3,11 +3,10 @@ import groovy.transform.Field
 @Field
 def testsStat = []
 
-@Field
-def WORKSPACE = pwd()
-
 timeout("1200") {
     node("maven") {
+        def WORKSPACE = pwd()
+
         withBuildUser {
             currentBuild.description = "User: ${env.BUILD_USER}"
         }
