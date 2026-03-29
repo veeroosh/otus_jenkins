@@ -1,6 +1,5 @@
 - name: Run tests
   hosts: latysheva_server
-  become: yes
   remote_user: root
   roles:
     - tests
