@@ -4,10 +4,10 @@
     description: "UI tests runner"
     concurrent: true
     parameters:
-      - string:
-          name: REFSPEC
-          default: master
-          description: "Branch"
+#      - string:
+#          name: REFSPEC
+#          default: master
+#          description: "Branch"
       - text:
           name: CONFIG
           default: |
@@ -16,4 +16,4 @@
     pipeline-scm:
       scm:
         - ui_tests_scm
-      script-path: ./ui_tests.groovy
+      script-path: ./jenkins/pipelines/ui_tests.groovy
