@@ -23,7 +23,7 @@ timeout("1200") {
 
         stage('Running UI tests via ansible') {
             def state = sh(
-                    script: "ansible-playbook -i ./jenkins/playbook/hosts ./jenkins/playbook/tests.yaml --tags ui_test", // --extra-vars browser=${yamlConfig['browser']} --extra-vars browser_version=${yamlConfig['browser_version']}
+                    script: "ansible-playbook -i ./playbook/hosts ./playbook/tests.yaml --tags ui_test", // --extra-vars browser=${yamlConfig['browser']} --extra-vars browser_version=${yamlConfig['browser_version']}
                     returnStatus: true
             )
             if (state > 0) {
