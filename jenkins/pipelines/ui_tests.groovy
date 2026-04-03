@@ -47,7 +47,7 @@ timeout("1200") {
         }
 
         stage('Read tests stat') {
-            def jsonFileContent = readJSON file: "./allure-report/widget/summary.json"
+            def jsonFileContent = readJSON file: "./allure-report/widgets/summary.json"
             jsonFileContent.statistic.each { k, v -> testsStat << "$k: $v" }
             currentBuild.description += ' | ' + testsStat.join(' | ')
         }
