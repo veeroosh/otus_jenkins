@@ -52,19 +52,19 @@ timeout("1200") {
             currentBuild.description += ' | ' + testsStat.join(' | ')
         }
 
-        stage('Notification') {
-            def message = """-----------UI TESTS-----------
-            brower: ${yamlConfig['browser']}"""
-            testsStat.each { val ->
-                message += "$val\n"
-            }
-
-            withCredentials([string(credentialsId: 'telegram-token', variable: 'TELEGRAM_TOKEN')]) {
-                sh """
-                            curl -s -X POST https://api.telegram.org{TELEGRAM_TOKEN}/sendMessage \
-                            -d chat_id=latysheva_jenkins \
-                            -d text=${message}"""
-            }
-        }
+//        stage('Notification') {
+//            def message = """-----------UI TESTS-----------
+//            brower: ${yamlConfig['browser']}"""
+//            testsStat.each { val ->
+//                message += "$val\n"
+//            }
+//
+//            withCredentials([string(credentialsId: 'telegram-token', variable: 'TELEGRAM_TOKEN')]) {
+//                sh """
+//                            curl -s -X POST https://api.telegram.org{TELEGRAM_TOKEN}/sendMessage \
+//                            -d chat_id=latysheva_jenkins \
+//                            -d text=${message}"""
+//            }
+//        }
     }
 }
