@@ -1,14 +1,14 @@
 ---
 - name: Running UI tests
   docker_container:
-    command: "-Dbrowser={{ browser_name }}"
+    #command: "-Dbrowser={{ browser_name }}"
     detach: false
     auto_remove: false # container will not be removed
     pull: true
     image: "localhost:5005/ui_tests:1.0.0"
     network_mode: host
     volumes:
-      - "{{ test_dir }}/allure:/root/target/allure-results"
+      - "{{ test_dir }}/allure:/tests/allure-results"
     tags: ui_tests
     register: container_result
 
