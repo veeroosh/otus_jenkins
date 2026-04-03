@@ -37,13 +37,13 @@ timeout("1200") {
         }
 
         stage('Publish allure report') {
-            allure([
+            allure(
                     results          : [[ path: 'allure-results' ]],
                     includeProperties: false,
                     jdk              : '',
                     properties       : [],
                     reportBuildPolicy: 'ALWAYS'
-            ])
+            )
         }
 
         stage('Read tests stat') {
