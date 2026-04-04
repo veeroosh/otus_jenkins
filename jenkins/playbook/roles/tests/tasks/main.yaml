@@ -5,7 +5,7 @@
     detach: false
     auto_remove: false # container will not be removed
     pull: true
-    image: "localhost:5005/ui_tests:1.0.0"
+    image: "localhost:5005/ui_tests:1.0.1"
     network_mode: host
     volumes:
       - "{{ test_dir }}/allure:/tests/allure-results"
