@@ -1,7 +1,6 @@
 ---
 - name: Running UI tests
   docker_container:
-    #command: "-Dbrowser={{ browser_name }}"
     detach: false
     auto_remove: false # container will not be removed
     pull: true
@@ -11,6 +10,7 @@
       - "{{ test_dir }}/allure:/tests/allure-results"
     tags: ui_tests
     register: container_result
+    output_logs: true
 
 - name: Running API tests
   docker_container:
