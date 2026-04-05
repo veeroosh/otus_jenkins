@@ -27,6 +27,11 @@ timeout("1200") {
         }
 
         stage('Running UI tests via ansible') {
+            sh """ls -l /var/run/docker.sock
+echo $DOCKER_HOST
+docker ps
+"""
+
             def state = sh(
                     script: "ansible-playbook -i jenkins/playbook/hosts jenkins/playbook/tests.yaml --tags ui_tests --extra-vars browser=${yamlConfig['browser']} --extra-vars base_url=${yamlConfig['base_url']}",
                     returnStatus: true
