@@ -1,16 +1,21 @@
 ---
 - name: Running UI tests
-  docker_container:
-    detach: false
-    auto_remove: false # container will not be removed
-    pull: true
+  community.docker.docker_container:
     image: "localhost:5005/ui_tests:1.0.1"
+    pull: true
+    detach: false
+    auto_remove: false
     network_mode: host
     volumes:
-      - "{{ test_dir }}/allure:/tests/allure-results"
-    tags: ui_tests
-    register: container_result
+      - "{{ test_dir }}/allure-results:/tests/allure-results"
+    env:
+      BROWSER: "{{ browser }}"
+      BASE_URL: "{{ base_url }}"
+    command: >
+      sh -c "mvn clean test -Dbrowser=$BROWSER -DbaseUrl=$BASE_URL -Dallure.results.directory=/tests/allure-results"
     output_logs: true
+  register: container_result
+  tags: ui_tests
 
 - name: Running API tests
   docker_container:

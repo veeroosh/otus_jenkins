@@ -18,7 +18,7 @@ timeout("1200") {
         stage("Create env file") {
             dir("config") {
                 sh "BROWSER=${yamlConfig['browser']} > ./.env"
-                sh "BROWSER_VERSION=${yamlConfig['base_url']} >> ./.env"
+                sh "BASE_URL=${yamlConfig['base_url']} >> ./.env"
             }
         }
 
@@ -28,7 +28,7 @@ timeout("1200") {
 
         stage('Running UI tests via ansible') {
             def state = sh(
-                    script: "ansible-playbook -i jenkins/playbook/hosts jenkins/playbook/tests.yaml --tags ui_test", // --extra-vars browser=${yamlConfig['browser']} --extra-vars browser_version=${yamlConfig['browser_version']}
+                    script: "ansible-playbook -i jenkins/playbook/hosts jenkins/playbook/tests.yaml --tags ui_test --extra-vars browser=${yamlConfig['browser']} --extra-vars base_url=${yamlConfig['base_url']}",
                     returnStatus: true
             )
             if (state > 0) {
@@ -38,11 +38,12 @@ timeout("1200") {
 
         stage('Publish allure report') {
             allure(
-                    results          : [[ path: 'allure-results' ]],
+                    jdk: '',
+                    reportBuildPolicy: 'ALWAYS',
+                    results: [[path: 'allure-results']],
                     includeProperties: false,
-                    jdk              : '',
-                    properties       : [],
-                    reportBuildPolicy: 'ALWAYS'
+                    properties: [],
+                    commandline: '2.38.1'
             )
         }
 
