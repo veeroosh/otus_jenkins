@@ -2,7 +2,7 @@
 - name: Running UI tests
   community.docker.docker_container:
     name: ui_tests
-    image: "localhost:5005/ui_tests:1.0.2"
+    image: "localhost:5005/ui_tests:1.0.3"
     pull: true
     detach: false
     auto_remove: false
@@ -12,8 +12,6 @@
     env:
       BROWSER: "{{ browser }}"
       BASE_URL: "{{ base_url }}"
-    command: >
-      sh -c "mvn clean test -Dbrowser=$BROWSER -DbaseUrl=$BASE_URL -Dallure.results.directory=/tests/allure-results"
     output_logs: true
   register: container_result
   tags: ui_tests
