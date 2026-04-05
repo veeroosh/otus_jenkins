@@ -1,6 +1,7 @@
 ---
 - name: Running UI tests
   community.docker.docker_container:
+    name: ui_tests
     image: "localhost:5005/ui_tests:1.0.2"
     pull: true
     detach: false
