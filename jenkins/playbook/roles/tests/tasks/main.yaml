@@ -3,7 +3,7 @@
   community.docker.docker_container:
     name: ui_tests
     image: "localhost:5005/ui_tests:1.0.3"
-    docker_host: "unix:///var/run/docker.sock"
+    docker_host: unix:///var/run/docker.sock
     pull: true
     detach: false
     auto_remove: false
