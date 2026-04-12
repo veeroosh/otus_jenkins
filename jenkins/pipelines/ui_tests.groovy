@@ -29,7 +29,7 @@ timeout("1200") {
         stage('Running UI tests via ansible') {
             sh "whoami"
             sh "hostname"
-            sh "echo $DOCKER_HOST"
+            sh "echo env.DOCKER_HOST"
             sh "ls -l /var/run/docker.sock"
             sh "docker ps"
             def state = sh(
