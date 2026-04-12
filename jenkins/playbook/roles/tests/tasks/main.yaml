@@ -3,7 +3,6 @@
   community.docker.docker_container:
     name: ui_tests
     image: "localhost:5005/ui_tests:1.0.3"
-    docker_host: unix:///var/run/docker.sock
     pull: true
     detach: false
     auto_remove: false
@@ -16,6 +15,8 @@
     output_logs: true
   register: container_result
   tags: ui_tests
+  environment:
+    DOCKER_HOST: unix:///var/run/docker.sock
 
 - name: Running API tests
   docker_container:
