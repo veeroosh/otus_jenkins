@@ -1,4 +1,4 @@
-FROM jenkins/agent
+FROM jenkins/agent:jdk21
 
 USER root
 
@@ -20,3 +20,5 @@ RUN apt update -y \
 RUN /venv/bin/pip3 install setuptools==69.5.1
 
 ENV PATH="$PATH:/venv/bin"
+
+RUN curl -fsSL https://get.docker.com | sh

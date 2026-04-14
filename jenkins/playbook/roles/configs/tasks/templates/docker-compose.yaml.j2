@@ -23,6 +23,7 @@ services:
     user: root
     environment:
       - JAVA_OPTS="-Dhudson.model.DownloadService.noSignatureCheck=true"
+      - DOCKER_OPTS=-H tcp://0.0.0.0:2376 -H unix:///var/run/docker.sock
       - DOCKER_HOST=unix:///var/run/docker.sock
       - JENKINS_OPTS="--prefix=/jenkins"
     volumes:
