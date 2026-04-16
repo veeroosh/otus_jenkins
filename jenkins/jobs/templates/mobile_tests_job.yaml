@@ -11,8 +11,9 @@
       - text:
           name: CONFIG
           default: |
-            browser: chrome
-            base_url: https://otus.ru
+            appium_server_url: http://127.0.0.1
+            wiremock_url: http://wiremock:8080/
+            jdbc_url: jdbc:postgresql://sql.otus.kartushin.su:5432/wishlist
     pipeline-scm:
       scm:
         - mobile_tests_scm

@@ -14,14 +14,15 @@ timeout("1200") {
 
         stage("Create env file") {
             dir("config") {
-                sh "BROWSER=${yamlConfig['browser']} > ./.env"
-                sh "BROWSER_VERSION=${yamlConfig['browser_version']} >> ./.env"
+                sh "APPIUM_SERVER_URL=${yamlConfig['appium_server_url']} > ./.env"
+                sh "WIREMOCK_URL=${yamlConfig['wiremock_url']} >> ./.env"
+                sh "JDBC_URL=${yamlConfig['jdbc_url']} >> ./.env"
             }
         }
 
         stage('Running mobile tests via ansible') {
             def state = sh(
-                    script: "ansible-playbook -i ./playbook/hosts ./playbook/playbook.yaml --tags mobile_tests",
+                    script: "ansible-playbook -i ./playbook/hosts ./playbook/tests.yaml --tags mobile_tests --extra-vars appium_server_url=${yamlConfig['appium_server_url']} --extra-vars wiremock_url=${yamlConfig['wiremock_url']} --extra-vars jdbc_url=${yamlConfig['jdbc_url']}",
                     returnStatus: true
             )
             if (state > 0) {
@@ -30,13 +31,14 @@ timeout("1200") {
         }
 
         stage('Publish allure report') {
-            allure([
-                    results          : [{ path: 'allure-results' }],
+            allure(
+                    jdk: '',
+                    reportBuildPolicy: 'ALWAYS',
+                    results: [[path: 'allure-results']],
                     includeProperties: false,
-                    jdk              : '',
-                    properties       : [],
-                    reportBuildPolicy: 'ALWAYS'
-            ])
+                    properties: [],
+                    commandline: '2.38.1'
+            )
         }
 
         stage('Read tests stat') {
@@ -45,19 +47,19 @@ timeout("1200") {
             currentBuild.description += ' | ' + testsStat.join(' | ')
         }
 
-        stage('Notification') {
-            def message = """-----------MOBILE TESTS-----------
-            brower: ${yamlConfig['browser']}"""
-            testsStat.each { val ->
-                message += "$val\n"
-            }
-
-            withCredentials([string(credentialsId: 'telegram-token', variable: 'TELEGRAM_TOKEN')]) {
-                sh """
-                            curl -s -X POST https://api.telegram.org{TELEGRAM_TOKEN}/sendMessage \
-                            -d chat_id=latysheva_jenkins \
-                            -d text=${message}"""
-            }
-        }
+//        stage('Notification') {
+//            def message = """-----------UI TESTS-----------
+//            brower: ${yamlConfig['browser']}"""
+//            testsStat.each { val ->
+//                message += "$val\n"
+//            }
+//
+//            withCredentials([string(credentialsId: 'telegram-token', variable: 'TELEGRAM_TOKEN')]) {
+//                sh """
+//                            curl -s -X POST https://api.telegram.org{TELEGRAM_TOKEN}/sendMessage \
+//                            -d chat_id=latysheva_jenkins \
+//                            -d text=${message}"""
+//            }
+//        }
     }
 }

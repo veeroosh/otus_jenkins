@@ -9,19 +9,9 @@ timeout("1200") {
             currentBuild.description = "User: ${env.BUILD_USER}"
         }
 
-        def yamlConfig = readYaml text: "{$CONFIG}"
-        sh "mkdir -p ./config"
-
-        stage("Create env file") {
-            dir("config") {
-                sh "BROWSER=${yamlConfig['browser']} > ./.env"
-                sh "BROWSER_VERSION=${yamlConfig['browser_version']} >> ./.env"
-            }
-        }
-
         stage('Running API tests via ansible') {
             def state = sh(
-                    script: "ansible-playbook -i ./playbook/hosts ./playbook/playbook.yaml --tags api_tests",
+                    script: "ansible-playbook -i ./playbook/hosts ./playbook/tests.yaml --tags api_tests",
                     returnStatus: true
             )
             if (state > 0) {
@@ -30,13 +20,14 @@ timeout("1200") {
         }
 
         stage('Publish allure report') {
-            allure([
-                    results          : [{ path: 'allure-results' }],
+            allure(
+                    jdk: '',
+                    reportBuildPolicy: 'ALWAYS',
+                    results: [[path: 'allure-results']],
                     includeProperties: false,
-                    jdk              : '',
-                    properties       : [],
-                    reportBuildPolicy: 'ALWAYS'
-            ])
+                    properties: [],
+                    commandline: '2.38.1'
+            )
         }
 
         stage('Read tests stat') {
@@ -45,18 +36,19 @@ timeout("1200") {
             currentBuild.description += ' | ' + testsStat.join(' | ')
         }
 
-        stage('Notification') {
-            def message = """-----------API TESTS-----------"""
-            testsStat.each { val ->
-                message += "$val\n"
-            }
-
-            withCredentials([string(credentialsId: 'telegram-token', variable: 'TELEGRAM_TOKEN')]) {
-                sh """
-                            curl -s -X POST https://api.telegram.org{TELEGRAM_TOKEN}/sendMessage \
-                            -d chat_id=latysheva_jenkins \
-                            -d text=${message}"""
-            }
-        }
+//        stage('Notification') {
+//            def message = """-----------UI TESTS-----------
+//            brower: ${yamlConfig['browser']}"""
+//            testsStat.each { val ->
+//                message += "$val\n"
+//            }
+//
+//            withCredentials([string(credentialsId: 'telegram-token', variable: 'TELEGRAM_TOKEN')]) {
+//                sh """
+//                            curl -s -X POST https://api.telegram.org{TELEGRAM_TOKEN}/sendMessage \
+//                            -d chat_id=latysheva_jenkins \
+//                            -d text=${message}"""
+//            }
+//        }
     }
 }

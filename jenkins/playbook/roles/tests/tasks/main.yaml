@@ -7,8 +7,6 @@
     detach: false
     auto_remove: false
     network_mode: host
-    volumes:
-      - "{{ test_dir }}/allure-results:/tests/allure-results"
     env:
       BROWSER: "{{ browser }}"
       BASE_URL: "{{ base_url }}"
@@ -20,26 +18,24 @@
 
 - name: Running API tests
   docker_container:
-    command: "-Dbrowser={{ browser_name }}"
     detach: false
     auto_remove: false
     pull: true
     image: "localhost:5005/api_tests:1.0.0"
     network_mode: host
-    volumes:
-      - "{{ test_dir }}/allure:/root/target/allure-results"
     tags: api_tests
     register: container_result
 
 - name: Running mobile tests
   docker_container:
-    command: "-Dbrowser={{ browser_name }}"
     detach: false
     auto_remove: false
     pull: true
     image: "localhost:5005/mobile_tests:1.0.0"
     network_mode: host
-    volumes:
-      - "{{ test_dir }}/allure:/root/target/allure-results"
+    env:
+      APPIUM_SERVER_URL: "{{ appium_server_url }}"
+      WIREMOCK_URL: "{{ base_url }}"
+      JDBC_URL: "{{ jdbc_url }}"
     tags: mobile_tests
     register: container_result

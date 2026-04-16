@@ -8,11 +8,6 @@
           name: REFSPEC
           default: master
           description: "Branch"
-      - text:
-          name: CONFIG
-          default: |
-            browser: chrome
-            base_url: https://otus.ru
     pipeline-scm:
       scm:
         - api_tests_scm

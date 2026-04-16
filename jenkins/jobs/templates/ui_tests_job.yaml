@@ -4,10 +4,10 @@
     description: "UI tests runner"
     concurrent: true
     parameters:
-#      - string:
-#          name: REFSPEC
-#          default: master
-#          description: "Branch"
+      - string:
+          name: REFSPEC
+          default: master
+          description: "Branch"
       - text:
           name: CONFIG
           default: |
