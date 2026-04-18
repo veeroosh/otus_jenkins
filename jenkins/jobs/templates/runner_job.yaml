@@ -1,13 +1,9 @@
-- job:
+- job-template:
     name: runner_job
     project-type: pipeline
     description: "Runner for all tests"
     concurrent: false
     parameters:
-      - text:
-          name: REFSPEC
-          default: master
-          description: "Branch"
       - text:
           name: TESTS_TYPES
           default: |
