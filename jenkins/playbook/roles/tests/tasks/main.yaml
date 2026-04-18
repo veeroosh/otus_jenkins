@@ -2,7 +2,7 @@
 - name: Running UI tests
   community.docker.docker_container:
     name: ui_tests
-    api_version: 29.2.1
+    api_version: 1.53
     image: "localhost:5005/ui_tests:1.0.3"
     pull: true
     detach: false
