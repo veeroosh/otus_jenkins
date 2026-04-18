@@ -1,7 +1,7 @@
 timeout(300) {
     node("maven") {
-
-        def testsTypes = "${TESTS_TYPES}"
+        def configText = "${TESTS_TYPES}"
+        def testsTypes = readYaml text: configText
 
         def jobs = [:]
 

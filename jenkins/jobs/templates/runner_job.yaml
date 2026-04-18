@@ -7,8 +7,9 @@
       - text:
           name: TESTS_TYPES
           default: |
-            ui_tests
-            api_tests
+            TESTS_TYPES:
+              - ui_tests
+              - api_tests
     pipeline-scm:
       scm:
         - runner_scm
