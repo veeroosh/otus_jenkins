@@ -42,8 +42,7 @@ timeout("1200") {
                     reportBuildPolicy: 'ALWAYS',
                     results: [[path: 'allure-results']],
                     includeProperties: false,
-                    properties: [],
-                    commandline: '2.38.1'
+                    properties: []
             )
         }
 

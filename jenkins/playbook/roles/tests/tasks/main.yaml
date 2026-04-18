@@ -2,7 +2,6 @@
 - name: Running UI tests
   community.docker.docker_container:
     name: ui_tests
-    docker_host: "unix:///var/run/docker.sock"
     api_version: 1.53
     image: "localhost:5005/ui_tests:1.0.3"
     pull: true
