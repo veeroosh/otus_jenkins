@@ -18,6 +18,7 @@
 
 - name: Running API tests
   community.docker.docker_container:
+    name: api_tests
     detach: false
     auto_remove: false
     pull: true
@@ -28,6 +29,7 @@
 
 - name: Running mobile tests
   community.docker.docker_container:
+    name: mobile_tests
     detach: false
     auto_remove: false
     pull: true
