@@ -3,6 +3,7 @@
   community.docker.docker_container:
     name: ui_tests
     api_version: 1.53
+    docker_host: unix:///var/run/docker.sock
     image: "localhost:5005/ui_tests:1.0.3"
     pull: true
     detach: false
@@ -12,8 +13,6 @@
       BROWSER: "{{ browser }}"
       BASE_URL: "{{ base_url }}"
     output_logs: true
-  environment:
-    DOCKER_HOST: unix:///var/run/docker.sock
   register: container_result
   tags: ui_tests
 
