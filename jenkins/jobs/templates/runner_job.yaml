@@ -8,6 +8,11 @@
           name: REFSPEC
           default: master
           description: "Branch"
+      - text:
+          name: TESTS_TYPES
+          default: |
+            ui_tests
+            api_tests
     pipeline-scm:
       scm:
         - runner_scm
