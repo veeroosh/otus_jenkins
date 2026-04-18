@@ -23,8 +23,8 @@
     pull: true
     image: "localhost:5005/api_tests:1.0.0"
     network_mode: host
-    tags: api_tests
-    register: container_result
+  tags: api_tests
+  register: container_result
 
 - name: Running mobile tests
   docker_container:
