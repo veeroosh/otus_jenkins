@@ -9,6 +9,10 @@ timeout("1200") {
             currentBuild.description = "User: ${env.BUILD_USER}"
         }
 
+        stage("Checkout") {
+            checkout scm
+        }
+
         stage('Running API tests via ansible') {
             def state = sh(
                     script: "ansible-playbook -i ./playbook/hosts ./playbook/tests.yaml --tags api_tests",
