@@ -11,10 +11,10 @@
       BROWSER: "{{ browser }}"
       BASE_URL: "{{ base_url }}"
     output_logs: true
-  register: container_result
-  tags: ui_tests
   environment:
     DOCKER_HOST: unix:///var/run/docker.sock
+  register: container_result
+  tags: ui_tests
 
 - name: Running API tests
   docker_container:
