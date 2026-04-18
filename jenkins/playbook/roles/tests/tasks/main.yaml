@@ -17,7 +17,7 @@
   tags: ui_tests
 
 - name: Running API tests
-  docker_container:
+  community.docker.docker_container:
     detach: false
     auto_remove: false
     pull: true
@@ -27,7 +27,7 @@
   register: container_result
 
 - name: Running mobile tests
-  docker_container:
+  community.docker.docker_container:
     detach: false
     auto_remove: false
     pull: true
