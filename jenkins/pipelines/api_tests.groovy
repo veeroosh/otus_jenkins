@@ -15,7 +15,7 @@ timeout("1200") {
 
         stage('Running API tests via ansible') {
             def state = sh(
-                    script: "ansible-playbook -i jenkins/playbook/hosts jenkins/playbook/tests.yam --tags api_tests",
+                    script: "ansible-playbook -i jenkins/playbook/hosts jenkins/playbook/tests.yaml --tags api_tests",
                     returnStatus: true
             )
             if (state > 0) {
