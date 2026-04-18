@@ -7,4 +7,3 @@
           credentials-id: jenkins
           branches:
             - FETCH_HEAD
-          refspec: $REFSPEC
