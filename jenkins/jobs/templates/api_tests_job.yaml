@@ -11,4 +11,4 @@
     pipeline-scm:
       scm:
         - api_tests_scm
-      script-path: ./jenkins/pipelines/api_tests.groovy
+      script-path: ./api_tests.groovy
