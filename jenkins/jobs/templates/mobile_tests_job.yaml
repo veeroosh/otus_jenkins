@@ -17,4 +17,4 @@
     pipeline-scm:
       scm:
         - mobile_tests_scm
-      script-path: ./jenkins/pipelines/mobile_tests.groovy
+      script-path: .//mobile_tests.groovy
